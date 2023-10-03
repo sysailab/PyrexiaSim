@@ -1,0 +1,65 @@
+Info:
+  version: 0.1
+  creator: simulationist
+  email: simul@simul.tech
+---
+Models:
+  - type: BaseType
+    in_port: i_event
+    out_port: o_event
+    instances:
+      - name: BaseModel
+        uri: "./model_db/base_model.simx"
+  - type: PathType
+    in_port: []
+    out_port: position
+    instances:
+      - name: PathModel01
+        uri: "./model_db/path_model01.simx"
+      - name: PathModel02
+        uri: "./model_db/path_model02.simx"
+      - name: PathModel03
+        uri: "./model_db/path_model03.simx"
+      - name: PathModel04
+        uri: "./model_db/path_model04.simx"
+---
+Configuration:
+  - Coupling: 
+    - relation: [
+      PathType,
+      position
+      BaseType,
+      i_event,
+    ]
+---
+Variations:
+  - name: Variation01
+    rand_seed: [
+      0,
+      10
+    ]
+    models: 
+      - name: BaseModel
+        init_time: 0
+        destroy_time: -1
+      - name: PathModel01
+        init_time: 0
+        destroy_time: 10
+      - name: PathModel02
+        init_time: 10
+        destroy_time: 20
+  - name: Variation02
+    rand_seed: [
+      0,
+      10
+    ]
+    models: 
+      - name: BaseModel
+        init_time: 0
+        destroy_time: -1
+      - name: PathModel02
+        init_time: 0
+        destroy_time: 10
+      - name: PathModel04
+        init_time: 10
+        destroy_time: 20
