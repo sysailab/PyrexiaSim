@@ -4,62 +4,101 @@ Info:
   email: simul@simul.tech
 ---
 Models:
-  - type: BaseType
-    in_port: i_event
-    out_port: o_event
-    instances:
-      - name: BaseModel
-        uri: "./model_db/base_model.simx"
-  - type: PathType
-    in_port: []
-    out_port: position
-    instances:
-      - name: PathModel01
-        uri: "./model_db/path_model01.simx"
-      - name: PathModel02
-        uri: "./model_db/path_model02.simx"
-      - name: PathModel03
-        uri: "./model_db/path_model03.simx"
-      - name: PathModel04
-        uri: "./model_db/path_model04.simx"
----
-Configuration:
-  - Coupling: 
-    - relation: [
-      PathType,
-      position
-      BaseType,
-      i_event,
+  - model_type: BaseType
+    in_ports: [
+      i_event
     ]
+    out_ports: [
+      o_event
+    ]
+    module_depend: []
+    instances:
+      - name: base_model
+        model_uri: "./model_db/base_model.simx"
+        imported_uri: "./model_db/base_model.imported"
+  - model_type: PathType
+    in_ports: []
+    out_ports: [
+      position
+    ]
+    module_depend: []
+    instances:
+      - name: path_model01
+        model_uri: "./model_db/path_model01.simx"
+        imported_uri: "./model_db/path_model01.imported"
+      - name: path_model02
+        model_uri: "./model_db/path_model02.simx"
+        imported_uri: "./model_db/path_model02.imported"
+      - name: path_model03
+        model_uri: "./model_db/path_model03.simx"
+        imported_uri: "./model_db/path_model03.imported"
+      - name: path_model04
+        model_uri: "./model_db/path_model04.simx"
+        imported_uri: "./model_db/path_model04.imported"
+#---
+#SimConfig:
+#  Coupling: 
+#    - src: PathType 
+#      o_port: position
+#      dst: BaseType
+#      i_port: i_event
 ---
 Variations:
   - name: Variation01
     rand_seed: [
       0,
-      10
+      2
     ]
+    time_res: 1
+    ex_mode: REAL_TIME
     models: 
-      - name: BaseModel
+      - name: base_model
         init_time: 0
-        destroy_time: -1
-      - name: PathModel01
+        destroy_time: Infinite
+      - name: path_model01
         init_time: 0
         destroy_time: 10
-      - name: PathModel02
+      - name: path_model02
         init_time: 10
         destroy_time: 20
+    couplings:
+      - src_name: base_model
+        src_port: out
+        dst_name: path_model01
+        dst_port: in
+      - src_name: base_model
+        src_port: out
+        dst_name: path_model02
+        dst_port: in
+    custom_events:
+      - port: start
+        event: None
   - name: Variation02
     rand_seed: [
       0,
-      10
+      2
     ]
+    time_res: 1
+    ex_mode: REAL_TIME
     models: 
-      - name: BaseModel
+      - name: base_model
         init_time: 0
-        destroy_time: -1
-      - name: PathModel02
+        destroy_time: Infinite
+      - name: path_model02
         init_time: 0
         destroy_time: 10
-      - name: PathModel04
+      - name: path_model04
         init_time: 10
         destroy_time: 20
+    couplings:
+      - src_name: base_model
+        src_port: out
+        dst_name: path_model02
+        dst_port: in
+      - src_name: base_model
+        src_port: out
+        dst_name: path_model04
+        dst_port: in
+    custom_events:
+      - port: start
+        event: None

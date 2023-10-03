@@ -1,0 +1,1 @@
+# Stores Generated Scenarios

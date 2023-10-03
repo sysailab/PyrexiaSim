@@ -3,7 +3,7 @@ Script Manager for Scenario Generator
 '''
 
 import yaml
-
+import pprint
 
 class ScriptManager:
     def __init__(self):
@@ -25,4 +25,4 @@ class ScriptManager:
 if __name__ == "__main__":
     script_manager = ScriptManager()
     script_manager.load_script("temp_sce_ex.yaml")
-    print(script_manager.get_script_object())
+    pprint.pprint(script_manager.get_script_object())
