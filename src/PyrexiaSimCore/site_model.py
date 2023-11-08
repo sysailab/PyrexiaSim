@@ -35,6 +35,8 @@ class SiteModel(BehaviorModelExecutor):
 		self.insert_output_port("out") # Broadcast event to connected agents
 
 		self.site_info = site_info
+
+		self.current_sim_temp = site_info["temperature"]
 		self.temp_model = self.get_temp_model(site_sim_info["temp_model_type"], site_sim_info["temp_model_seed"])
 		self.noise_model = self.get_noise_model(site_sim_info["noise_model_type"], site_sim_info["noise_model_seed"])
 
@@ -58,7 +60,7 @@ class SiteModel(BehaviorModelExecutor):
 				def __init__(self):
 					self.rand = random.Random(_seed)
 
-				def get_value(self, current_temp):
+				def get_value(self, current_temp, _time):
 					return current_temp + self.rand.randint(-3, 3)
 			return gen()
 
@@ -68,7 +70,7 @@ class SiteModel(BehaviorModelExecutor):
 				def __init__(self):
 					self.rand = random.Random(seed)
 
-				def get_value(self, current_temp):
+				def get_value(self, current_temp, _time):
 					return current_temp + self.rand.randint(-1, 1)
 			return gen()
 
